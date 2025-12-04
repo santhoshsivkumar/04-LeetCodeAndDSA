@@ -42,10 +42,17 @@ const array = [
   "apple",
 ];
 
-for (let index = 0; index < array.length; index++) {
-  const element = array[index];
-  if (element === "kiwi") console.log(element);
+// getUniqueAndSortedByLength(array);
+
+let arr = [3, 2, 3];
+
+function majorityElement(nums) {
+  const counts = {};
+  for (let i = 0; i < nums.length; i++) {
+    counts[nums[i]] = (counts[nums[i]] || 0) + 1;
+    if (counts[nums[i]] > nums.length / 2)
+      console.log(`Majority Element: ${nums[i]}`);
+  }
+  console.log(counts);
 }
-console.log(array.push((v) => v == "something"));
-console.log(array);
-getUniqueAndSortedByLength(array);
+majorityElement(arr);

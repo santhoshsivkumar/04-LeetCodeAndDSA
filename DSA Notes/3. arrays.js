@@ -14,40 +14,159 @@ class MyArray {
     this.length = 0;
     this.data = {};
   }
+
+  // Add to end
   push(item) {
     this.data[this.length] = item;
     this.length++;
     return this.length;
   }
+
+  // Get element by index
   get(index) {
     return this.data[index];
   }
+
+  // Remove from end
   pop() {
+    if (this.length === 0) return undefined;
     const lastItem = this.data[this.length - 1];
     delete this.data[this.length - 1];
     this.length--;
     return lastItem;
   }
+
+  // Remove from start
   shift() {
-    // if (this.length === 0) return [];
+    if (this.length === 0) return undefined;
     const firstItem = this.data[0];
-    for (let index = 0; index < this.length; index++) {
-      this.data[index] = this.data[index + 1];
+    for (let i = 0; i < this.length - 1; i++) {
+      this.data[i] = this.data[i + 1];
     }
     delete this.data[this.length - 1];
     this.length--;
     return firstItem;
   }
+
+  // Add to start
+  unshift(item) {
+    for (let i = this.length; i > 0; i--) {
+      this.data[i] = this.data[i - 1];
+    }
+    this.data[0] = item;
+    this.length++;
+    return this.length;
+  }
+
+  // Delete by index
   deleteByIndex(index) {
+    if (index < 0 || index >= this.length) return undefined;
     const item = this.data[index];
-    for (let i = index; i < this.length; i++) {
+    for (let i = index; i < this.length - 1; i++) {
       this.data[i] = this.data[i + 1];
     }
     delete this.data[this.length - 1];
     this.length--;
     return item;
   }
+
+  // Insert at specific index
+  insertAt(index, value) {
+    if (index < 0 || index > this.length) return false;
+    for (let i = this.length; i > index; i--) {
+      this.data[i] = this.data[i - 1];
+    }
+    this.data[index] = value;
+    this.length++;
+    return true;
+  }
+
+  // Find index of an item
+  indexOf(item) {
+    for (let i = 0; i < this.length; i++) {
+      if (this.data[i] === item) return i;
+    }
+    return -1;
+  }
+
+  // Check if item exists
+  includes(item) {
+    return this.indexOf(item) !== -1;
+  }
+
+  // Reverse the array
+  reverse() {
+    const mid = Math.floor(this.length / 2);
+    for (let i = 0; i < mid; i++) {
+      const oppositeIndex = this.length - 1 - i;
+      const temp = this.data[i];
+      this.data[i] = this.data[oppositeIndex];
+      this.data[oppositeIndex] = temp;
+    }
+    return this;
+  }
+
+  // Map — return new MyArray
+  map(callback) {
+    const result = new MyArray();
+    for (let i = 0; i < this.length; i++) {
+      result.push(callback(this.data[i], i, this));
+    }
+    return result;
+  }
+
+  // Filter — return new MyArray
+  filter(callback) {
+    const result = new MyArray();
+    for (let i = 0; i < this.length; i++) {
+      if (callback(this.data[i], i, this)) {
+        result.push(this.data[i]);
+      }
+    }
+    return result;
+  }
+
+  // ForEach — just iterate
+  forEach(callback) {
+    for (let i = 0; i < this.length; i++) {
+      callback(this.data[i], i, this);
+    }
+  }
+
+  // Join elements into a string
+  join(separator = ",") {
+    let str = "";
+    for (let i = 0; i < this.length; i++) {
+      str += this.data[i];
+      if (i < this.length - 1) str += separator;
+    }
+    return str;
+  }
+
+  // Slice — returns new MyArray
+  slice(start = 0, end = this.length) {
+    const result = new MyArray();
+    for (let i = start; i < end && i < this.length; i++) {
+      result.push(this.data[i]);
+    }
+    return result;
+  }
+
+  // Concat — merge with another MyArray
+  concat(otherArray) {
+    const result = new MyArray();
+    for (let i = 0; i < this.length; i++) result.push(this.data[i]);
+    for (let i = 0; i < otherArray.length; i++) result.push(otherArray.data[i]);
+    return result;
+  }
+
+  // Clear all data
+  clear() {
+    this.data = {};
+    this.length = 0;
+  }
 }
+
 const myNewArray = new MyArray();
 myNewArray.push("a");
 myNewArray.push("b");
